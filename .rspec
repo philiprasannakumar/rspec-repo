@@ -1,0 +1,2 @@
+#--color
+--format CI::Reporter::RSpec --format documentation --format html --out result.html

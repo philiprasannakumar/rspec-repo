@@ -1,0 +1,2708 @@
+require 'rubygems'
+require 'ci/reporter/rake/rspec'
+require 'rspec/core/rake_task'
+require 'yaml'
+
+##system('del /q reports')
+ENV['CI_REPORTS']='reports'
+ENV['MODE']='standalone'
+
+desc "Run all rake tasks irrespective of category/classification"
+RSpec::Core::RakeTask.new(:all => ["ci:setup:rspec"]) do |spec|
+
+  spec.pattern = '**/*_spec.rb'
+end
+
+desc "Login to the Prime Collab Server"
+RSpec::Core::RakeTask.new(:login) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/dragon_login_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add CCM, UC, CUP, CME, CUE and Ldap devices"
+RSpec::Core::RakeTask.new(:deviceAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/design/device_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Delete Device"
+RSpec::Core::RakeTask.new(:delDevice) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sample_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Sync CCM, UC, CUP"
+RSpec::Core::RakeTask.new(:syncDeviceAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/design/device_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Perform Domain & LDAP Sync"
+RSpec::Core::RakeTask.new(:syncDomainAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/domain_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+## Ashok rake starts here##
+desc "LDAP User Validation"
+RSpec::Core::RakeTask.new(:ldapUserVdln) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/ldap_user_validation_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:jabber_service) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/jabber_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:eps_service) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/endpoint_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:rdp_service) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/rdp_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:sharedLineEp_service) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/shared_line_Ep_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:enhancedEp_service) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/enhanced_ep_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:LDAP_dn_us1) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/LDAP_DN/LDAP_dn_usecase1_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:LDAP_dn_us2) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/LDAP_DN/LDAP_dn_usecase2_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:LDAP_dn_us3) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/LDAP_DN/LDAP_dn_usecase3_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:LDAP_dn_us4) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/LDAP_DN/LDAP_dn_usecase4_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:CSCur76235) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/endpoint_service_CSCur76235_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:config_temp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/config_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:CSCus01610) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/line_service_CSCus01610_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:user_move) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/user_move_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:uc_cross_launch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/infrastructure_configuration/uc_cross_launch_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:cup_cross_launch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/infrastructure_configuration/cup_cross_launch_spec.rb'
+  spec.fail_on_error = false
+end
+
+RSpec::Core::RakeTask.new(:CSCur67388) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/cancel_line_on_shared_ep_pseudo_CSCur67388_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :bundle_service=> [:jabber_service, :eps_service, :rdp_service, :sharedLineEp_service, :enhancedEp_service]
+task :dn_trans_LDAP=> [:LDAP_dn_us1, :LDAP_dn_us2, :LDAP_dn_us3, :LDAP_dn_us4]
+
+## rake end ##
+
+desc "Enter Maintenance Mode in PCP"
+RSpec::Core::RakeTask.new(:enterMaintncMode) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/administration/enter_maintenance_mode_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Exit Maintenance Mode in PCP"
+RSpec::Core::RakeTask.new(:exitMaintncMode) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/administration/exit_maintenance_mode_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add User for PCP"
+RSpec::Core::RakeTask.new(:userAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/user_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Adding_Domain"
+RSpec::Core::RakeTask.new(:domainAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/domain_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Adding Service Template"
+RSpec::Core::RakeTask.new(:serviceTempAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Adding/Editing/Deleting Service Template"
+RSpec::Core::RakeTask.new(:serviceTempE2EAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/design/service_template_AddEditDel_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Enable Auto provisioning to Employee role for a given Domain/SA"
+RSpec::Core::RakeTask.new(:enable_auto_provisioning) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/enable_auto_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Adding_Service Area"
+RSpec::Core::RakeTask.new(:srvcAreaAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sa_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Upload a batch file in PCP"
+RSpec::Core::RakeTask.new(:batchPrvsnAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/deploy/batch_provisioning/batch_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Upload a batch file in PCP"
+RSpec::Core::RakeTask.new(:sampleBatAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sample_batch_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Getting Started Wizard: End-to-End"
+RSpec::Core::RakeTask.new(:gswE2EAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/getting_started_wizard/gsw_end_to_end_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating Endpoint"
+RSpec::Core::RakeTask.new(:srvcVldnAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/service_validation_spec.rb'
+  spec.fail_on_error = false
+end
+
+# Start of US9006  Sprint84 Jeevitha
+desc "User Service Template"
+RSpec::Core::RakeTask.new(:userservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_user_service_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "VM Service Template"
+RSpec::Core::RakeTask.new(:vmservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_vm_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Line Service Template"
+RSpec::Core::RakeTask.new(:lineservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_line_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "EMLine Service Template"
+RSpec::Core::RakeTask.new(:EMlineservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_EMline_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "RDPLine Service Template"
+RSpec::Core::RakeTask.new(:RDPlineservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_RDPline_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "RDP Service Template"
+RSpec::Core::RakeTask.new(:RDPservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_rdp_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Endpoint Service Template"
+RSpec::Core::RakeTask.new(:EPservicetemp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_ep_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Create LDAP"
+RSpec::Core::RakeTask.new(:createldap) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/LDAP_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "User Creation for keyword substitution"
+RSpec::Core::RakeTask.new(:NewUser) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_user_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning endpoint services with keyword substitution"
+RSpec::Core::RakeTask.new(:EP_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_ep_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning userservice  with keyword substitution"
+RSpec::Core::RakeTask.new(:US_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_userservice_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning lineservice  with keyword substitution"
+RSpec::Core::RakeTask.new(:LINE_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_line_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning RDP  with keyword substitution"
+RSpec::Core::RakeTask.new(:RDP_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_rdp_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning RDP  with keyword substitution"
+RSpec::Core::RakeTask.new(:Rules_EP_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_rules_ep_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning RDP  with keyword substitution"
+RSpec::Core::RakeTask.new(:Rules_LINE_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_rules_line_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning RDP  with keyword substitution"
+RSpec::Core::RakeTask.new(:RDP_LINE_Prov) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_RDPline_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning EM LINE  with keyword substitution"
+RSpec::Core::RakeTask.new(:EM_LINE_Prov) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_EMline_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Provisioning VM  with keyword substitution"
+RSpec::Core::RakeTask.new(:VM_Prov) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_vm_service_provisioning_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Rules settings for DescriptionString & LineDisplayString"
+RSpec::Core::RakeTask.new(:Rules) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9006/Sprint84_Rules_settings_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End of US9006  Sprint84 Jeevitha
+
+# Start of US9416  Sprint86 Jeevitha
+desc "11.0 device addition"
+RSpec::Core::RakeTask.new(:Deviceadd_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_device_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 device sync"
+RSpec::Core::RakeTask.new(:Devicesync_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_device_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 domain addition"
+RSpec::Core::RakeTask.new(:Domainadd_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_domain_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 domain addition"
+RSpec::Core::RakeTask.new(:SAadd_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_sa_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 domain addition"
+RSpec::Core::RakeTask.new(:Domainsync_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_domain_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 User addition"
+RSpec::Core::RakeTask.new(:Useradd_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_user_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 User addition"
+RSpec::Core::RakeTask.new(:Useradd_V12) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/sprint86_user_provisioning_cme_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 User addition"
+RSpec::Core::RakeTask.new(:Ser_Prov_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/Sprint86_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 Resource Report"
+RSpec::Core::RakeTask.new(:Resource_Report_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/Sprint86_Reports_Resource_Configuration_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 SA Report"
+RSpec::Core::RakeTask.new(:SA_Report_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/Sprint86_Reports_SA_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.0 DN Report"
+RSpec::Core::RakeTask.new(:DN_Report_V11) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9416/Sprint86_Reports_DN_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End of US9416  Sprint86 Jeevitha
+
+# Start of US9281  Sprint86 Jeevitha
+desc "Advance License"
+RSpec::Core::RakeTask.new(:License) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9281/Sprint86_License_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9281  Sprint86 Jeevitha
+
+# Start of US9178  Sprint87 Jeevitha
+desc "PostgreSQL"
+RSpec::Core::RakeTask.new(:Navigationchk) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9178/Sprint87_PCP_Navigation_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9178  Sprint87 Jeevitha
+
+# Start of US9508  Sprint88 Jeevitha
+desc "Quickview for jabber and conference now"
+RSpec::Core::RakeTask.new(:QuickView) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9508/sprint88_Quicksetup_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9672  Sprint88 Jeevitha
+
+# Start of US9508  Sprint88 Jeevitha
+desc "Drop Support - add"
+RSpec::Core::RakeTask.new(:adddropsupport) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9672/sprint88_device_drop_support_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Drop Support - batch"
+RSpec::Core::RakeTask.new(:batchdropsupport) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec\sprint88\US9672\Sprint88_device_drop_support_batch_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End of US9672  Sprint88 Jeevitha
+# Start of US9431  Sprint88 Jeevitha
+
+desc "Drop Support - batch"
+RSpec::Core::RakeTask.new(:batchicon) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9431/Sprint88_batch_icons_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End of US9431  Sprint88 Jeevitha
+
+# Start of US9521  Sprint88 Jeevitha
+desc "Drop Support - add"
+RSpec::Core::RakeTask.new(:Dpool) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9521/sprint88_Batch_DevicePool_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Drop Support - add"
+RSpec::Core::RakeTask.new(:Rpatt) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9521/sprint88_Batch_RoutePattern_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Drop Support - add"
+RSpec::Core::RakeTask.new(:Tpatt) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9521/sprint88_Batch_TransPattern_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9521  Sprint88 Jeevitha
+
+# Start of US9523  Sprint89 Jeevitha
+
+desc "Quickview for Emergency location"
+RSpec::Core::RakeTask.new(:QuickView_EL) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint89/US9523/sprint89_Quicksetup_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "French_Navigation_Check"
+RSpec::Core::RakeTask.new(:French_Navigationchk) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/French_PCP_Navigation_spec.rb'
+  spec.fail_on_error = false
+end
+
+# Start of US9007  Sprint84 Sathya
+desc "Creation of Non-Human Room Role and normal User Role"
+RSpec::Core::RakeTask.new(:addnonHumanRole) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9007/Sprint84_add_non_human_roles_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Creation of Non-Human User and normal User"
+RSpec::Core::RakeTask.new(:addnonHumanUser) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9007/Sprint84_add_non_human_user_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Non-Human User - Provision Service"
+RSpec::Core::RakeTask.new(:nonHumanService) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9007/Sprint84_add_non_human_services_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End  of US9007  Sprint84 Sathya
+
+# Start of US9011  Sprint84 Sathya
+
+desc "Abort Order Functionality"
+RSpec::Core::RakeTask.new(:abortOrder) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9011/Sprint84_serviceability_abort_order_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End  of US9011  Sprint84 Sathya
+
+# Start of US9506 Sprint86 Sathya
+desc "Day2 - Conference Now Part1"
+RSpec::Core::RakeTask.new(:day2ConferenceNowPart1) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9506/Sprint86_day2_conference_now_part1_spec.rb'
+  spec.fail_on_error = false
+end
+
+# End  of US9506  Sprint86 Sathya
+
+# Start of US9507 Sprint87 Sathya
+desc "Day2 - Conference Now Part2"
+RSpec::Core::RakeTask.new(:day2ConferenceNowPart2) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9507/Sprint87_day2_conference_now_part2_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9507 Sprint87 Sathya
+
+# Start of US9485 Sprint87 Sathya
+desc "Day1 - Audio Conference Batch Support"
+RSpec::Core::RakeTask.new(:day1AudioConferenceBatch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9485/Sprint87_day1_conference_batch_support_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9485 Sprint87 Sathya
+
+# Start of US9509 Sprint87 Sathya
+desc "Day1 - IVR settings Batch Support"
+RSpec::Core::RakeTask.new(:day1IVRBatch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9509/Sprint87_day1_ivr_batch_support_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9509 Sprint87 Sathya
+
+# Start of US9632 Sprint88 Sathya
+desc "Day2 - Conference Now Part3"
+RSpec::Core::RakeTask.new(:day2ConferenceNowPart3) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9632/Sprint88_day2_conference_now_part3_spec.rb'
+  spec.fail_on_error = false
+end
+# End of US9632 Sprint88 Sathya
+
+# Start of US9235 Sprint88 Sathya
+desc "Day1 -    Support for Reports on SA which are ER enabled"
+RSpec::Core::RakeTask.new(:saReportOnER) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9235/Sprint88_support_ER_enabled_sa_reports_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9187  Sprint88 Sathya
+
+# Start of US9633 Sprint88 Sathya
+desc "Day1 -   Change Noticifation and sync changes for new infra objects"
+RSpec::Core::RakeTask.new(:changeNotifyDay1) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9633/Sprint88_change_noticifation_sync_changes_new_day1_objects_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9187  Sprint88 Sathya
+
+# Start of US9187 Sprint88 Sathya
+desc "Day1 -  ELIN Group Batch Support"
+RSpec::Core::RakeTask.new(:elinGroupBatch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint88/US9187/Sprint88_support_for_ELIN_group_batch_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9187  Sprint88 Sathya
+
+# Start of US9234 Sprint89 Sathya
+desc "Support for new icon"
+RSpec::Core::RakeTask.new(:newIconsupport) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint89/US9234/Sprint89_Support_for_new_icon.rb'
+  spec.fail_on_error = false
+end
+# End  of US9187  Sprint88 Sathya
+
+#####=====PRASANNA,Starts=====#####
+
+### Start of US9012 Sprint85 ###
+desc "Ordering User Service"
+RSpec::Core::RakeTask.new(:AutoUserService) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9012/Sprint85_user_service_spec.rb'
+  spec.fail_on_error = false
+end
+### End of US9012 Sprint85 ###
+
+### Start of Stage II ###
+desc "Validating Manage Endpoints"
+RSpec::Core::RakeTask.new(:MngEndPts) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/manage_endpoints_spec.rb'
+  spec.fail_on_error = false
+end
+### End of Stage II ###
+
+### Start of Stage III ###
+desc "Validating Logging and ShowTech"
+RSpec::Core::RakeTask.new(:enableLogShowTech) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Logging_and_ShowTech_spec.rb'
+  spec.fail_on_error = false
+end
+### End of Stage III ###
+
+### Start of CFD Suite ###
+desc "Validating CFD CSCur52603"
+RSpec::Core::RakeTask.new(:CfdCSCur52603) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/manage_endpoint_CSCur52603_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating CFDs CSCut03778, CSCur78921, CSCus75350"
+RSpec::Core::RakeTask.new(:domainCfds) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/domain_cfds_spec.rb'
+  spec.fail_on_error = false
+end
+### End of CFD Suite ###
+
+desc "Validating Service Area Copying Functionality"
+RSpec::Core::RakeTask.new(:saCopy) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sa_copy_spec.rb'
+  spec.fail_on_error = false
+end
+
+### Start of Batch Suite ###
+###### New 9X endpoints #######
+
+desc "Validating the addition of 9X ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_new_9x_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/newEndpoints_9x_batches/st_batches/newEndpoints_9x_st_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_new_9x_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/newEndpoints_9x_batches/add_batches/newEndpoints_9x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_new_9x_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/newEndpoints_9x_batches/change_batches/newEndpoints_9x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_new_9x_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/newEndpoints_9x_batches/cancel_batches/newEndpoints_9x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :new9xloadrake=> [:st_new_9x_batch, :add_new_9x_batch, :change_new_9x_batch, :cancel_new_9x_batch]
+
+###### 9X BATCHES #######
+###### Device and Service Area #######
+
+desc "Validating the addition of 9x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_9x_devices_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/device_addition_batches/batch_provisioning_device_sync_9x_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the creation of Domain for 9x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_9x_dom_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/domain_addition_batches/batch_provisioning_domain_add_9x_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the creation of Service Area for 9x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_9x_sa_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/service_area_addition_batches/batch_provisioning_service_area_add_9x_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### DAY I BATCHES #######
+
+desc "Validating the addition of 9X ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_9x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayI_batches/add_batches/9x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_9x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayI_batches/change_batches/9x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_9x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayI_batches/cancel_batches/9x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### DAY II BATCHES #######
+
+desc "Validating the addition of 9X ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_9x_dayII_add_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayII_batches/st_add_batches/9x_st_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the change of 9X ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_9x_dayII_change_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayII_batches/st_change_batches/9x_st_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the cancellation of 9X ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_9x_dayII_cancel_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayII_batches/st_cancel_batches/9x_st_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_9x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayII_batches/add_batches/9x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_9x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayII_batches/change_batches/9x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 9X CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_9x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/9x_batches/dayII_batches/cancel_batches/9x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### Device and Service Area loadrake #######
+task :DevDomSer9xloadrake=> [:add_9x_devices_batch, :add_9x_dom_batch, :add_9x_sa_batch ]
+
+##################### Day I 9x Loadrake #####################
+task :total9xdayIloadrake=> [:add_9x_dayI_batch, :change_9x_dayI_batch, :cancel_9x_dayI_batch]
+
+##################### Day II 9x Loadrake #####################
+task :total9xdayIIloadrake=> [:st_9x_dayII_add_batch, :st_9x_dayII_change_batch, :st_9x_dayII_cancel_batch, :add_9x_dayII_batch, :change_9x_dayII_batch, :cancel_9x_dayII_batch ]
+
+##################### Day I & II 9x Loadrake #####################
+task :total9xdayIandIIloadrake=>[:total9xdayIloadrake, :total9xdayIIloadrake]
+
+###### 10x BATCHES #######
+###### Device and Service Area #######
+
+desc "Validating the addition of 10x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_10x_devices_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/device_addition_batches/batch_provisioning_device_sync_10x_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the creation of Domain for 10x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_10x_dom_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/domain_addition_batches/batch_provisioning_domain_add_10x_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the creation of Service Area for 10x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_10x_sa_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/service_area_addition_batches/batch_provisioning_service_area_add_10x_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### DAY I BATCHES #######
+
+desc "Validating the addition of 10x ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_10x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayI_batches/add_batches/10x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 10x CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_10x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayI_batches/change_batches/10x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 10x CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_10x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayI_batches/cancel_batches/10x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### DAY II BATCHES #######
+
+desc "Validating the addition of 10x ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_10x_dayII_add_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayII_batches/st_add_batches/10x_st_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the change of 10x ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_10x_dayII_change_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayII_batches/st_change_batches/10x_st_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the cancellation of 10x ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_10x_dayII_cancel_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayII_batches/st_cancel_batches/10x_st_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 10x ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_10x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayII_batches/add_batches/10x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 10x CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_10x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayII_batches/change_batches/10x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 10x CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_10x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/10x_batches/dayII_batches/cancel_batches/10x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### Device and Service Area loadrake #######
+task :preSetup10xBatches=> [:add_10x_devices_batch, :add_10x_dom_batch, :add_10x_sa_batch ]
+
+##################### Day I 10x Loadrake #####################
+task :total10xdayIloadrake=> [:add_10x_dayI_batch, :change_10x_dayI_batch, :cancel_10x_dayI_batch]
+
+##################### Day II 10x Loadrake #####################
+task :total10xdayIIloadrake=> [:st_10x_dayII_add_batch, :st_10x_dayII_change_batch, :st_10x_dayII_cancel_batch, :add_10x_dayII_batch, :change_10x_dayII_batch, :cancel_10x_dayII_batch ]
+
+##################### Day I & II 10x Loadrake #####################
+task :total10xdayIandIIloadrake=>[:total10xdayIloadrake, :total10xdayIIloadrake]
+
+###### 11x BATCHES #######
+###### Device and Service Area #######
+
+desc "Validating the addition of 11x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_11x_devices_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/device_addition_batches/batch_provisioning_device_sync_11x_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the creation of Domain for 11x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_11x_dom_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/domain_addition_batches/batch_provisioning_domain_add_11x_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the creation of Service Area for 11x Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:add_11x_sa_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/service_area_addition_batches/batch_provisioning_service_area_add_11x_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### DAY I BATCHES #######
+
+desc "Validating the addition of 11x ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_11x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayI_batches/add_batches/11x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 11x CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_11x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayI_batches/change_batches/11x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 11x CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_11x_dayI_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayI_batches/cancel_batches/11x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### DAY II BATCHES #######
+
+desc "Validating the addition of 11x ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_11x_dayII_add_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayII_batches/st_add_batches/11x_st_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the change of 11x ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_11x_dayII_change_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayII_batches/st_change_batches/11x_st_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the cancellation of 11x ST_batch Functionality"
+RSpec::Core::RakeTask.new(:st_11x_dayII_cancel_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayII_batches/st_cancel_batches/11x_st_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 11x ADD_batch Functionality"
+RSpec::Core::RakeTask.new(:add_11x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayII_batches/add_batches/11x_add_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 11x CHANGE_batch Functionality"
+RSpec::Core::RakeTask.new(:change_11x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayII_batches/change_batches/11x_change_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Validating the addition of 11x CANCEL_batch Functionality"
+RSpec::Core::RakeTask.new(:cancel_11x_dayII_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/batch_suite/11x_batches/dayII_batches/cancel_batches/11x_cancel_batches_spec.rb'
+  spec.fail_on_error = false
+end
+
+###### Device and Service Area loadrake #######
+task :DevDomSer11xloadrake=> [:add_11x_devices_batch, :add_11x_dom_batch, :add_11x_sa_batch ]
+
+##################### Day I 11x Loadrake #####################
+task :total11xdayIloadrake=> [:add_11x_dayI_batch, :change_11x_dayI_batch, :cancel_11x_dayI_batch]
+
+##################### Day II 11x Loadrake #####################
+task :total11xdayIIloadrake=> [:st_11x_dayII_add_batch, :st_11x_dayII_change_batch, :st_11x_dayII_cancel_batch, :add_11x_dayII_batch, :change_11x_dayII_batch, :cancel_11x_dayII_batch ]
+
+##################### Day I & II 11x Loadrake #####################
+task :total11xdayIandIIloadrake=>[:total11xdayIloadrake, :total11xdayIIloadrake]
+
+##################### Over All Day I & II 9x, 10x, 11x Loadrake #####################
+task :total9x10x11xdayIandIIloadrake=>[:total9xdayIandIIloadrake, :total10xdayIandIIloadrake, :total11xdayIandIIloadrake]
+
+##################### End of Batch Suite #####################
+
+#####=====PRASANNA,Ends=====#####
+
+################################ Viknesvarane ##################################
+
+# Start of US9019  Sprint85 Viknesvarane
+desc "Add Endpoint Bundles through UI"
+RSpec::Core::RakeTask.new(:epbndlupldAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint85/US9019/Sprint85_add_endpoint_bundles_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9019  Sprint85 Viknesvarane
+
+# Start of US9071  Sprint86 Viknesvarane
+desc "UI support for batch project and batch action tables"
+RSpec::Core::RakeTask.new(:newbatchuiAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint86/US9071/Sprint86_new_batch_ui_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9071  Sprint86 Viknesvarane
+
+# Start of US9429  Sprint87 Viknesvarane
+desc "UI support for batch project and batch action tables"
+RSpec::Core::RakeTask.new(:newbatchactnuiAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9429/Sprint87_new_batch_action_ui_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9429  Sprint87 Viknesvarane
+
+# Start of US7246  Sprint87 Viknesvarane
+desc "US7246 - Device Management Improvement Test Connection wo saving device"
+RSpec::Core::RakeTask.new(:tstcntndvcAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US7246/Sprint87_tst_cntn_device_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US7246  Sprint87 Viknesvarane
+
+# Start of US9445  Sprint87 Viknesvarane
+desc "US9445 - Test Connection WO Device Version for Auto import of CTO"
+RSpec::Core::RakeTask.new(:tstcntndvcbatchAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9445/Sprint87_tst_cntn_device_batch_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9445  Sprint87 Viknesvarane
+
+# Start of US9446  Sprint87 Viknesvarane
+desc "US9446 - Sync framework change, startup script change"
+RSpec::Core::RakeTask.new(:devicesyncencryptbatchAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint87/US9446/Sprint87_device_sync_encrypt_data_batch_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9446  Sprint87 Viknesvarane
+
+# Start of US9679  Sprint89 Viknesvarane
+desc "US9679 - Day 1 configuration via Batch, from Tim's analysis"
+RSpec::Core::RakeTask.new(:day1configbatchAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint89/US9679/sprint89_day1_configuration_batch_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9679  Sprint89 Viknesvarane
+
+# Start of US9393  Sprint89 Viknesvarane
+desc "US9679 - Day 1 configuration via Batch, from Tim's analysis"
+RSpec::Core::RakeTask.new(:elinconfigbatchAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint89/US9393/sprint89_Support_Global_onoff_batch_spec.rb'
+  spec.fail_on_error = false
+end
+# End  of US9393  Sprint89 Viknesvarane
+
+############################ End of Viknesvarane #################################
+
+########Browser Support Test Suite
+
+desc "Browser Support Test Suite"
+RSpec::Core::RakeTask.new(:browser_support) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/browser_support/browser_support_spec.rb'
+  spec.fail_on_error = false
+end
+
+# Generate html report for ARTS
+desc "Report Generator: Provisioning"
+RSpec::Core::RakeTask.new(:reportAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/system/report_tool.rb'
+  spec.fail_on_error = false
+end
+
+##################################
+
+desc "Synched Services"
+RSpec::Core::RakeTask.new(:synched_services) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Synched_Services/ss_usecase1_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Synched Services"
+RSpec::Core::RakeTask.new(:synched_services2) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Synched_Services/ss_usecase2_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Keywork Substitution for endpoint"
+RSpec::Core::RakeTask.new(:ep_keyword_substitution) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/keyword_substitution/usecase_ep_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Keywork Substitution for line"
+RSpec::Core::RakeTask.new(:line_keyword_substitution) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/keyword_substitution/usecase_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Synch Back in PCP"
+RSpec::Core::RakeTask.new(:sync_back_in_pcp) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Synched_Services/sync_back_services_from_pcp_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Changeowner - CFD"
+RSpec::Core::RakeTask.new(:change_owner_cfd) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/change_owner_CSCus10269_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Infrastructure Configurations"
+RSpec::Core::RakeTask.new(:infra_config) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/infrastructure_configuration/infrastructure_configuration_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Changeowner - CFD"
+RSpec::Core::RakeTask.new(:ldap_sync_cfd) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/ldap_phonenum_sync_CSCus60746_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Send Email Report"
+RSpec::Core::RakeTask.new(:emailAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/system/email_tool.rb'
+  spec.fail_on_error = false
+end
+
+### CFD-Suite ###
+desc "CSCut47282-PCP Error when adding Jabber Service for user roles through batch file"
+RSpec::Core::RakeTask.new(:cfd_CSCut47282) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/CSCut47282_ChangeUserRole_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CSCus75350-Deleting a domain failed when a user had a line without an endpoint"
+RSpec::Core::RakeTask.new(:cfd_CSCus75350) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/CSCus75350_DelDomainLWEP_spec.rb'
+  spec.fail_on_error = false
+end
+
+############### Day-2 Provisioning Suite ###############
+desc "Creates a User and Provision RDP Line"
+RSpec::Core::RakeTask.new(:day2UserSrvceProv) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Day-2_Ordering/Userservice_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Creates a User and Provision EM Line"
+RSpec::Core::RakeTask.new(:day2EMlineProv) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Day-2_Ordering/EMline_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Creates a User and Provision Endpoint"
+RSpec::Core::RakeTask.new(:day2EPProv) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Day-2_Ordering/EP_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Creates a User and Provision Line"
+RSpec::Core::RakeTask.new(:day2LineProv) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Day-2_Ordering/Line_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Creates a User and Provision RDP"
+RSpec::Core::RakeTask.new(:day2RDPProv) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Day-2_Ordering/RDP_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Creates a User and Provision RDP Line"
+RSpec::Core::RakeTask.new(:day2RDPLineProv) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/Day-2_Ordering/RDPline_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+## Load task for Day-2 Prov Module ARTS
+task :provisionDay2Services => [:day2UserSrvceProv,:day2EMlineProv,:day2EPProv,:day2LineProv,:day2RDPProv,:day2RDPLineProv]
+
+############ Centaur CFD (Q4) ##################
+desc "CSCus75350-Provision EP service with Truncated User Id"
+RSpec::Core::RakeTask.new(:cfd_CSCuu53147) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/CFD_Suite/Centaur/CSCuu53147_UsrIdTruncated_spec.rb'
+  spec.fail_on_error = false
+end
+################################################
+
+#########################################################
+
+############## Centaur Feature specific Test Cases ##############
+
+#Ashok code starts
+#Sprint95 #US8312
+RSpec::Core::RakeTask.new(:schedule_sync_95) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US10136/sprint95_scheduling_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint96 #US8312
+RSpec::Core::RakeTask.new(:schedule_sync_96) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US10138/sprint96_scheduling_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :scheduleSyncLoad => [:schedule_sync_95,:schedule_sync_96]
+
+#Sprint97 #US10114: Generate, upload CSR and list it in UI
+RSpec::Core::RakeTask.new(:ssl_certificate) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US10114/sprint97_ssl_certificate_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :US8312=> [:schedule_sync_95,:schedule_sync_96]
+### Ashok Code Ends #####
+# Divya's Sprint96 US10277 Starts here
+RSpec::Core::RakeTask.new(:processMgmtStaticAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US10277/sprint96_static_ui_process_management_spec.rb'
+  spec.fail_on_error = false
+end
+# Divya's Sprint96 US10277 ends here
+
+# Divya's Sprint97 US10277_US10108_US10109 Starts here
+RSpec::Core::RakeTask.new(:processMgmtAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US10108/sprint96_Implementation_of_individual_restart_spec.rb'
+  spec.fail_on_error = false
+end
+# Divya's Sprint97 US10277_US10108_US10109 ends here
+
+# Divya's Sprint97 US10303 Starts here
+RSpec::Core::RakeTask.new(:processMgmtDemoAuto) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US10303/US10303_Addressing_Demo_comments_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :processMgmntSuite => [:processMgmtStaticAuto,:processMgmtAuto,:processMgmtDemoAuto]
+
+# Divya's Sprint97 US10303 ends here
+
+#Sprint 95 Avinash
+desc "US10092 - QSP Part I Popup changes"
+RSpec::Core::RakeTask.new(:US10092_QSP) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US10092/sprint95_QSP_Popup_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10093 - QSP Part I Popup changes"
+RSpec::Core::RakeTask.new(:US10093_cus_rec_page) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US10093/sprint95_new_customer_record_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint 96 Avinash
+desc "US10094 - QSP Part III - QSP Functionality, quick provisioning using popup dialog"
+RSpec::Core::RakeTask.new(:US10094_QSP) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US10094/sprint96_quick_provisioning_using_popup_dialog.rb'
+  spec.fail_on_error = false
+end
+#Sprint 97 Karthik
+# Start of US10253
+
+desc "ST creation for ASP and QSP"
+RSpec::Core::RakeTask.new(:STCreationUS10253) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US10253/US10253_STCreation_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "ST assignment for ASP and QSP"
+RSpec::Core::RakeTask.new(:STAssignmentUS10253) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US10253/US10253_STAssignment_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :us10253 => [:STCreationUS10253,:STAssignmentUS10253]
+
+### QPro Stories
+task :qProSuite=> [:US10092_QSP,:US10093_cus_rec_page,:US10094_QSP,:STCreationUS10253,:STAssignmentUS10253,:US10096_QSP,:US10097_line,:US10097_voice_mail,:US10097_user_services,:US10097_RDP_SNR]
+
+### QPro End
+
+desc "US10096 - QSP Add On"
+RSpec::Core::RakeTask.new(:US10096_QSP) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US10096/sprint96_addon_services_spec.rb'
+  spec.fail_on_error = false
+end
+
+# Sprint 98 Avinash
+desc "US10097 - QSP Part III Line - from Sprint 98"
+RSpec::Core::RakeTask.new(:US10097_line) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint98/US10097/sprint98_addon_services_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10097 - QSP Part III Voice Mail - from Sprint 98"
+RSpec::Core::RakeTask.new(:US10097_voice_mail) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint98/US10097/sprint98_addon_services_voice_mail_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10097 - QSP Part III User Services - from Sprint 98"
+RSpec::Core::RakeTask.new(:US10097_user_services) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint98/US10097/sprint98_addon_userservices_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10097 - QSP Part III RDP Line SNR - from Sprint 98"
+RSpec::Core::RakeTask.new(:US10097_RDP_SNR) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint98/US10097/sprint98_add_on_RDP_SNR_spec.rb'
+  spec.fail_on_error = false
+end
+# Start of US9885  Sprint95 Sathya
+desc "Geolocation and Geolocation Filter under Device Pool - P2"
+RSpec::Core::RakeTask.new(:devicepoolGLF) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9885/Sprint95_geolocation_geolocationfilter_under_devicepool_p2_spec.rb'
+  spec.fail_on_error = false
+end
+
+# Start of US9887  Sprint96 Sathya
+desc "SURL on phone support - P4"
+RSpec::Core::RakeTask.new(:surl) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US9887/Sprint97_SURL_on_phone_support_P4_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "SURL on phone support - P4"
+RSpec::Core::RakeTask.new(:surlBatch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US9887/Sprint97_SURL_on_phone_support_P4_batch_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "New Attribute Support - IR1"
+RSpec::Core::RakeTask.new(:timerAttribute) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US10260/Sprint97_new_attribute_support_IR1.rb'
+  spec.fail_on_error = false
+end
+
+# Start of US10401  Sprint99 Sathya
+desc "Cancel a running Job from schedule sync UI"
+RSpec::Core::RakeTask.new(:cancelJob) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint99/US10401/Sprint99_cancel_running_Job_schedule_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+# Start of US10401  Sprint99 Sathya
+desc "Security - Input validation for Certificate file type"
+RSpec::Core::RakeTask.new(:CERfileValidation) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint99/US10419/Sprint99_input_validation_certificate_file_type.rb'
+  spec.fail_on_error = false
+end
+
+task :sprint97 => [:surl,:surlBatch]
+task :sprint99Sathya => [:cancelJob,:CERfileValidation]
+
+######US9884 SMTP Starts-devibala####
+
+desc "SMTP"
+RSpec::Core::RakeTask.new(:smtpnotify) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9884/US9884_add_smtp_spec.rb'
+  spec.fail_on_error = false
+end
+
+####US9683 - Additional LDAP support####
+
+###AddOIC LDAP server - karthik###
+
+desc "Add OIC LDAP with valid credentials"
+RSpec::Core::RakeTask.new(:AddOICLDAP) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/AddOICLDAPindevicesetuppage_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "OIC LDAP with invalid credentials"
+RSpec::Core::RakeTask.new(:AddInvalidOICLDAP) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/AddOICLDAPwithInvalidCredential.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add OIC LDAP Via batch"
+RSpec::Core::RakeTask.new(:AddOICviaBatch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/AddOICLDAPviaBatch.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add domain with OIC LDAP"
+RSpec::Core::RakeTask.new(:AdddomainwithOIC) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/AdddomainwithOICLDAP.rb'
+  spec.fail_on_error = false
+end
+
+desc "auto prov for OIC LDAP user"
+RSpec::Core::RakeTask.new(:AutoprovOICuser) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/AddOICLDAPuserwithservicebyautoprov.rb'
+  spec.fail_on_error = false
+end
+
+desc "QSP for OIC LDAP user"
+RSpec::Core::RakeTask.new(:QSPforOICuser) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/OICLDAPuserserbyQSP.rb'
+  spec.fail_on_error = false
+end
+
+desc "All service for OIC LDAP user"
+RSpec::Core::RakeTask.new(:OICuserallservice) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/OICLDAPuserwithallservialegacy.rb'
+  spec.fail_on_error = false
+end
+
+desc "OIC LDAP field mappings"
+RSpec::Core::RakeTask.new(:OICLDAPmapping) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/OICLDAPsyncviaLDAPfieldmapping.rb'
+  spec.fail_on_error = false
+end
+
+desc "OIC LDAP domain simple query"
+RSpec::Core::RakeTask.new(:OICLDAPsimplequery) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OIC_LDAP/OICLDAPforsimplequery.rb'
+  spec.fail_on_error = false
+end
+
+task :OICLDAPsuite => [:AddOICLDAP,:AddInvalidOICLDAP, :AddOICviaBatch, :AdddomainwithOIC, :AutoprovOICuser, :QSPforOICuser, :OICuserallservice, :OICLDAPmapping, :OICLDAPsimplequery]
+
+#################OPENLDAP 2.4##################
+
+desc "Add OPEN LDAP 2.4 with valid credentials"
+RSpec::Core::RakeTask.new(:AddOPENLDAP) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/AddOPENLDAPindevicesetuppage_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add OPEN LDAP 2.4 with invalid credentials"
+RSpec::Core::RakeTask.new(:AddInvalidOPENLDAP) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/AddOPENLDAPwithInvalidCredential.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add OPEN LDAP 2.4 Via batch"
+RSpec::Core::RakeTask.new(:AddOPENLDAPviaBatch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/AddOPENLDAPviaBatch.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add domain with OPEN LDAP 2.4"
+RSpec::Core::RakeTask.new(:AdddomainwithOPENLDAP) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/AdddomainwithOPENLDAP.rb'
+  spec.fail_on_error = false
+end
+
+desc "auto prov for OPEN LDAP 2.4 user"
+RSpec::Core::RakeTask.new(:AutoprovOPENLDAPuser) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/AddOPENLDAPuserwithservicebyautoprov.rb'
+  spec.fail_on_error = false
+end
+
+desc "QSP for OPEN LDAP 2.4 user"
+RSpec::Core::RakeTask.new(:QSPforOPENLDAPuser) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/OPENLDAPuserserbyQSP.rb'
+  spec.fail_on_error = false
+end
+
+desc "All service for OPEN LDAP 2.4 user"
+RSpec::Core::RakeTask.new(:OPENLDAPuserallservice) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/OPENLDAPuserwithallservialegacy.rb'
+  spec.fail_on_error = false
+end
+
+desc "OPEN LDAP 2.4 field mappings"
+RSpec::Core::RakeTask.new(:OPENLDAPmapping) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/OPENLDAPsyncviaLDAPfieldmapping.rb'
+  spec.fail_on_error = false
+end
+
+desc "OPEN LDAP 2.4 simple query"
+RSpec::Core::RakeTask.new(:OPENLDAPsimplequery) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_4/OPENLDAPforsimplequery.rb'
+  spec.fail_on_error = false
+end
+
+###################OPENLDAP2.3######################
+
+desc "Add OPEN LDAP 2.3 with invalid credentials"
+RSpec::Core::RakeTask.new(:AddInvalidOPENLDAP3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/AddOPENLDAPwithInvalidCredential.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add OPEN LDAP 2.3 with valid credentials"
+RSpec::Core::RakeTask.new(:AddOPENLDAP3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/AddOPENLDAPindevicesetuppage_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add OPEN LDAP 2.3 Via batch"
+RSpec::Core::RakeTask.new(:AddOPENLDAPviaBatch3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/AddOPENLDAPviaBatch.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add domain with OPEN LDAP 2.3"
+RSpec::Core::RakeTask.new(:AdddomainwithOPENLDAP3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/AdddomainwithOPENLDAP.rb'
+  spec.fail_on_error = false
+end
+
+desc "auto prov for OPEN LDAP 2.3 user"
+RSpec::Core::RakeTask.new(:AutoprovOPENLDAPuser3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/AddOPENLDAPuserwithservicebyautoprov.rb'
+  spec.fail_on_error = false
+end
+
+desc "QSP for OPEN LDAP 2.3 user"
+RSpec::Core::RakeTask.new(:QSPforOPENLDAPuser3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/OPENLDAPuserserbyQSP.rb'
+  spec.fail_on_error = false
+end
+
+desc "All service for OPEN LDAP 2.3 user"
+RSpec::Core::RakeTask.new(:OPENLDAPuserallservice3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/OPENLDAPuserwithallservialegacy.rb'
+  spec.fail_on_error = false
+end
+
+desc "OPEN LDAP 2.3 field mappings"
+RSpec::Core::RakeTask.new(:OPENLDAPmapping3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/OPENLDAPsyncviaLDAPfieldmapping.rb'
+  spec.fail_on_error = false
+end
+
+desc "OPEN LDAP 2.3 simple query"
+RSpec::Core::RakeTask.new(:OPENLDAPsimplequery3) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/OPEN_LDAP_2_3/OPENLDAPforsimplequery.rb'
+  spec.fail_on_error = false
+end
+
+############ACS##############################
+
+desc "Add ACS server"
+RSpec::Core::RakeTask.new(:addACS) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/ACS/AddACSindevicesetup.rb'
+  spec.fail_on_error = false
+end
+
+desc "All service for ACS user"
+RSpec::Core::RakeTask.new(:ACSuserallservice) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/ACS/AddallserviceACS.rb'
+  spec.fail_on_error = false
+end
+
+desc "Add ACS via batch"
+RSpec::Core::RakeTask.new(:ACSviabatch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9683/ACS/ACSviabatch.rb'
+  spec.fail_on_error = false
+end
+
+################################US9532#######################
+
+desc "write back DN"
+RSpec::Core::RakeTask.new(:writeback) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US9532/writeback.rb'
+  spec.fail_on_error = false
+end
+
+desc "write back DN with invalid value for mask"
+RSpec::Core::RakeTask.new(:invalidwritebackmask) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US9532/invalidmaskvalue.rb'
+  spec.fail_on_error = false
+end
+
+desc "write back DN without value for mask"
+RSpec::Core::RakeTask.new(:writebackwithoutmask) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US9532/writebackwithoutmask.rb'
+  spec.fail_on_error = false
+end
+
+desc "write back DN for EMline"
+RSpec::Core::RakeTask.new(:EMlinewriteback) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US9532/EMlineforwriteback.rb'
+  spec.fail_on_error = false
+end
+
+task :karthikPegasusLoad => [:OICLDAPsuite,:AddOPENLDAP,:AddInvalidOPENLDAP,:AddOPENLDAPviaBatch,:AdddomainwithOPENLDAP,:AutoprovOPENLDAPuser,:QSPforOPENLDAPuser,:OPENLDAPuserallservice,:OPENLDAPmapping,:OPENLDAPsimplequery,:AddInvalidOPENLDAP3,:AddOPENLDAP3,:AddOPENLDAPviaBatch3,:AdddomainwithOPENLDAP3,:AutoprovOPENLDAPuser3,:QSPforOPENLDAPuser3,:OPENLDAPuserallservice3,:OPENLDAPmapping3,:OPENLDAPsimplequery3,:addACS,:ACSuserallservice,:ACSviabatch,:writeback,:invalidwritebackmask,:writebackwithoutmask,:EMlinewriteback]
+#######################end###########################################
+
+####US9884 SMTP Ends-devibala####
+###pegasus#####
+####sprint100#####
+desc "Service Activation"
+RSpec::Core::RakeTask.new(:serviceactivate) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9686/ccm_services_spec.rb'
+  spec.fail_on_error = false
+end
+####sprint100 ends###
+
+###Enterprise phone config###
+desc "Enterprise Phone"
+RSpec::Core::RakeTask.new(:enterpriseconfig) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9558/ep_spec.rb'
+  spec.fail_on_error = false
+end
+
+####enterprise phone config###
+###enterprise parameter-sprint102####
+desc "enterprise parameter "
+RSpec::Core::RakeTask.new(:enterprisepara) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint102/US9560/enterprise_parameter_spec.rb'
+  spec.fail_on_error = false
+end
+###enterprise parameter-sprint102###
+
+###cup services####
+desc "Cup Services"
+RSpec::Core::RakeTask.new(:cupservice) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9678/cup_services_spec.rb'
+  spec.fail_on_error = false
+end
+
+####cup services ends#####
+
+###service parameter-sprint104####
+desc "enterprise parameter "
+RSpec::Core::RakeTask.new(:servicepara) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US9559/service_parameter_spec.rb'
+  spec.fail_on_error = false
+end
+###service parameter-sprint104###
+###CCM Device validation starts - Brinda###
+desc "CCM_Device_Validation_RoutePartiction"
+RSpec::Core::RakeTask.new(:ccmRoutePartition) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/call_routing/class_of_control/route_partition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_CTIRoutePt"
+RSpec::Core::RakeTask.new(:ccmCTIRoutePt) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/device/cti_route_point_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_CallingSpaceSrch"
+RSpec::Core::RakeTask.new(:ccmCallingSpaceSrch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/call_routing/class_of_control/calling_search_space_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_SIPProfile"
+RSpec::Core::RakeTask.new(:ccmSipProfile) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/device/device_settings/sip_profile_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_UniversalDeviceTemplate"
+RSpec::Core::RakeTask.new(:ccmUniversalDeviceTemp) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/user_management/user_phone_add/universal_device_temp_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_UniversalLineTemplate"
+RSpec::Core::RakeTask.new(:ccmUniversalLineTemp) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/user_management/user_phone_add/universal_line_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_CiscoUnifedCMs"
+RSpec::Core::RakeTask.new(:ccmCiscoUnifiedCMs) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/cisco_unified_cms_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Trunk"
+RSpec::Core::RakeTask.new(:ccmTrunk) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/device/trunk_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_VoiceMail Pilot"
+RSpec::Core::RakeTask.new(:ccmVcMailPilot) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/advanced_features/voice_mail/voice_mail_pilot_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_VoiceMail Profile"
+RSpec::Core::RakeTask.new(:ccmVcMailProfile) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/advanced_features/voice_mail/voice_mail_profile_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Route_Pattern"
+RSpec::Core::RakeTask.new(:ccmRoutePattern) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/call_routing/route_hunt/route_pattern_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Service Parameter"
+RSpec::Core::RakeTask.new(:ccmSrvcParameter) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/service_parameters_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_VoiceMail Port"
+RSpec::Core::RakeTask.new(:ccmVcMailPort) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/advanced_features/voice_mail/cisco_voicemail_port_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Phone Services"
+RSpec::Core::RakeTask.new(:ccmPhoneServices) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/device/device_settings/ip_phone_services_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Unified CM Group"
+RSpec::Core::RakeTask.new(:ccmUnifiedCMGrp) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/cisco_unified_cm_group_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_User Profile"
+RSpec::Core::RakeTask.new(:ccmUserPrfle) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/user_management/user_settings/user_profile_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Device Pool"
+RSpec::Core::RakeTask.new(:ccmDevicePool) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/device_pool_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_DateTime Group"
+RSpec::Core::RakeTask.new(:ccmDateTimeGrp) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/date_time_group_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_UC Service"
+RSpec::Core::RakeTask.new(:ccmUCservice) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/user_management/user_settings/uc_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Service profile"
+RSpec::Core::RakeTask.new(:ccmServicePrfl) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/user_management/user_settings/service_profile_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_SoftKey Template"
+RSpec::Core::RakeTask.new(:ccmSoftKeyTemplate) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/device/device_settings/softKey_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_Self Provisioning"
+RSpec::Core::RakeTask.new(:ccmSelfProvisioning) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/user_management/self_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_LDAP Authentication"
+RSpec::Core::RakeTask.new(:ccmLDAPauthentication) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/ldap/ldap_authentication_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_LDAP Directory"
+RSpec::Core::RakeTask.new(:ccmLDAPdirectory) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/ldap/ldap_directory_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CCM_Device_Validation_LDAP System"
+RSpec::Core::RakeTask.new(:ccmLDAPsystem) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CCM_spec/system/ldap/ldap_system_spec.rb'
+  spec.fail_on_error = false
+end
+
+###CCM Device validation ends - Brinda###
+
+###CUP Device validation starts - Brinda###
+desc "CUP_Device_Validation_Service Parameter"
+RSpec::Core::RakeTask.new(:cupSrvcParameter) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CUP_spec/system/service_parameters_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CUP_Device_Validation_Presence Gateways"
+RSpec::Core::RakeTask.new(:cupPresenceGateways) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CUP_spec/presence/gateways_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CUP_Device_Validation_TFTP server"
+RSpec::Core::RakeTask.new(:cupTFTPServer) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CUP_spec/application/legacy_clients/settings_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "CUP_Device_Validation_CUP Presence Settings"
+RSpec::Core::RakeTask.new(:cupPreSettings) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/CUP_spec/presence/standard_settings_spec.rb'
+  spec.fail_on_error = false
+end
+
+###CUP Device validation ends - Brinda###
+
+###UC Device validation starts - Brinda###
+
+desc "UC_Device_Validation_Class of Service"
+RSpec::Core::RakeTask.new(:ucClassOfService) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/UC_spec/class_of_service_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "UC_Device_Validation_Telephony Port"
+RSpec::Core::RakeTask.new(:ucTelephonyPort) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/UC_spec/telephony_port_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "UC_Device_Validation_Telephony Port Group"
+RSpec::Core::RakeTask.new(:ucTelephonyPortGrp) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/UC_spec/telephony_port_group_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "UC_Device_Validation_User Template"
+RSpec::Core::RakeTask.new(:ucUserTemplate) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/device_details/UC_spec/user_template_spec.rb'
+  spec.fail_on_error = false
+end
+###UC Device validation ends - Brinda###
+
+### GSW LDAP user autoprovisioning starts - Brinda###
+desc "Getting Started Wizard: End-to-End"
+RSpec::Core::RakeTask.new(:gswLDAPSync) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/getting_started_wizard/gsw_ldap_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+### GSW LDAP user autoprovisioning ends- Brinda###
+
+############## US9889-Hunt Pilot sprint96 Devibala######
+desc "Hunt Pilot"
+RSpec::Core::RakeTask.new(:huntpilotbatch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US9889/hunt_pilot_batch_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Hunt Pilot UI"
+RSpec::Core::RakeTask.new(:huntpilotui) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint96/US9889/Add_hunt_pilot_spec.rb'
+  spec.fail_on_error = false
+end
+#######US9889-Hunt Pilot sprint96 Devibala######
+
+#######US9813-Native call queuing sprint97 Devibala#####
+desc "Native call queuing"
+RSpec::Core::RakeTask.new(:nativecallqueuinggateway) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US9813/native_callqueuing_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "Native call queuing"
+RSpec::Core::RakeTask.new(:nativecallqueuingsip) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint97/US9813/native_callqueuingsip_spec.rb'
+  spec.fail_on_error = false
+end
+
+##### US9889-Native call queuing sprint97 Devibala #####
+
+######## Centaur, Prasanna Starts ########
+######## On Sprint95, US9871 ########
+######## Device Support, Starts ########
+desc "11.5 device addition"
+RSpec::Core::RakeTask.new(:Deviceadd_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_device_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.5 device sync"
+RSpec::Core::RakeTask.new(:Devicesync_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_device_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.5 domain addition"
+RSpec::Core::RakeTask.new(:Domainadd_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_domain_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.5 Service area addition"
+RSpec::Core::RakeTask.new(:SAadd_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_sa_addition_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.5 domain sync"
+RSpec::Core::RakeTask.new(:Domainsync_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_domain_sync_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.5 User addition"
+RSpec::Core::RakeTask.new(:Useradd_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_user_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "11.5 Service Provisining"
+RSpec::Core::RakeTask.new(:Ser_Prov_V115) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_service_provisioning_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :devicesupport115=> [:Deviceadd_V115,:Devicesync_V115,:Domainadd_V115,:SAadd_V115,:Domainsync_V115,:Useradd_V115,:Ser_Prov_V115]
+
+desc "Validating the addition of CME/CUE Devices through batch Functionality"
+RSpec::Core::RakeTask.new(:cmecue_device_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9871/sprint95_cme_cue_batch_spec.rb'
+  spec.fail_on_error = false
+end
+######## Device Support, Ends ########
+######## Sip Trunk ########
+desc "US9886 - Additional sip trunk check box support"
+RSpec::Core::RakeTask.new(:siptrunkbatchAuto) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint95/US9886/sprint95_sip_trunk_batch_spec.rb'
+  spec.fail_on_error = false
+end
+######## Centaur, Prasanna Ends ########
+
+########################### ========> PEGASUS STARTS FROM HERE <======== ###########################
+
+#Pegasus Ashok Code Starts here ================>
+
+############### Keyword feature for RDP and RDP Line Starts here ######################
+
+#Sprint100 F711 - US9765 Keyword Feature for ST RDP
+RSpec::Core::RakeTask.new(:stRDPKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/rdp/US9765_ST_keyword_rdp_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for ST RDP line
+RSpec::Core::RakeTask.new(:stRDPlineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/rdp/US9765_ST_keyword_rdp_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for RDP
+RSpec::Core::RakeTask.new(:rdpKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/rdp/US9765_keyword_rdp_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature RDP Line
+RSpec::Core::RakeTask.new(:rdpLineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/rdp/US9765_keyword_rdp_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature for Auto Prov RDP Service
+RSpec::Core::RakeTask.new(:autoProvRdpKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/rdp/US9765_autoprov_keyword_rdp_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature for Auto Prov RDP line
+RSpec::Core::RakeTask.new(:autoProvRdpLineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/rdp/US9765_autoprov_keyword_rdp_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature RDP service validation Via Batch
+RSpec::Core::RakeTask.new(:rdpBatchKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10885/US10885_batch_keyword_rdp_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature RDP service validation Via Batch
+RSpec::Core::RakeTask.new(:rdpLineBatchKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10885/US10885_batch_keyword_rdp_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :rdpKWF => [:stRDPKeyword, :stRDPlineKeyword, :rdpKeyword, :rdpLineKeyword, :autoProvRdpKeyword, :autoProvRdpLineKeyword, :rdpBatchKeyword, :rdpLineBatchKeyword]
+
+################ RDP Feature Ends ####################
+
+############### Keyword feature for Line Starts here ######################
+
+#Sprint100 F711 - US9765 Keyword Feature for SA line
+RSpec::Core::RakeTask.new(:stlineKeyword) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/line/US9765_ST_keyword_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for Line
+RSpec::Core::RakeTask.new(:lineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/line/US9765_keyword_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for Line Auto prov
+RSpec::Core::RakeTask.new(:autoProvlineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/line/US9765_autoprov_line_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature Line service validation Via Batch
+RSpec::Core::RakeTask.new(:lineBatchKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10885/US10885_batch_keyword_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :lineKWF => [:stlineKeyword, :lineKeyword, :autoProvlineKeyword, :lineBatchKeyword]
+
+################# Line Feature Ends #################
+
+############### Keyword feature for Endpoint Starts here ######################
+
+#Sprint100 F711 - US9765 Keyword Feature ST Endpoint
+RSpec::Core::RakeTask.new(:stEpKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/endpoint/US9765_ST_keyword_endpoint_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for Endpoint
+RSpec::Core::RakeTask.new(:epKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/endpoint/US9765_keyword_endpoint_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature for Auto Prov Endpoint Service
+RSpec::Core::RakeTask.new(:autoProvEPKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/endpoint/US9765_autoprov_keyword_ep_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :epKWF => [:stEpKeyword, :epKeyword, :autoProvEPKeyword]
+
+################# Endpoint Feature Ends #################
+
+############### Keyword feature for EM and EM line Starts here ######################
+
+#Sprint100 F711 - US9765 Keyword Feature for EM Access
+RSpec::Core::RakeTask.new(:stEmKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/em_line/US9765_ST_keyword_em_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for ST EM Access line
+RSpec::Core::RakeTask.new(:stEmLineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/em_line/US9765_ST_keyword_em_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for EM Access
+RSpec::Core::RakeTask.new(:emKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/em_line/US9765_keyword_em_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint100 F711 - US9765 Keyword Feature for EM Access line
+RSpec::Core::RakeTask.new(:emLineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/em_line/US9765_keyword_em_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature for Auto Prov EM Access line
+RSpec::Core::RakeTask.new(:autoProvEmLineKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/em_line/US9765_autoprov_keyword_em_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - US9765 Keyword Feature RDP service validation Via Batch
+RSpec::Core::RakeTask.new(:emLineBatchKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10885/US10885_batch_keyword_em_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :emKWF => [:stEmKeyword, :stEmLineKeyword, :emKeyword, :emLineKeyword, :autoProvEmLineKeyword, :emLineBatchKeyword]
+################# EM and EM Line Feature Ends #################
+
+task :US9765Pegasus => [:rdpKWF, :lineKWF, :epKWF, :emKWF]
+
+#Sprint100 F711 - US9765 Keyword Feature for Voicemail
+RSpec::Core::RakeTask.new(:stVMKeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/line/US9765_ST_keyword_voicemail_spec.rb'
+  spec.fail_on_error = false
+end
+
+#sprint103 - #continueOnBatchFailures
+RSpec::Core::RakeTask.new(:continueOnBatchFailures) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US10342/continueOnBatchFailures_spec.rb'
+  spec.fail_on_error = false
+end
+############Pegasus Jeevitha Start ###############
+
+#Sprint102 F709 - US9905 GSW UC Suite
+RSpec::Core::RakeTask.new(:gswucsuite) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9765/em_line/US9765_keyword_em_line_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10361 SMTP ST
+RSpec::Core::RakeTask.new(:stsmtpui) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US10361/Sprint104_SMTP_service_template_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10361 SMTP ST
+RSpec::Core::RakeTask.new(:stsmtpuikeyword) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US10361/Sprint104_SMTP_service_template_keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10095 SMTP ST BATCH
+RSpec::Core::RakeTask.new(:stsmtpbatch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10095/sprint103_Batch_SMTP_ST_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10361 SMTP ST Keyword BATCH
+RSpec::Core::RakeTask.new(:stsmtpkeywordbatch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10095/sprint103_Batch_SMTP_ST_Keyword_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10095 and US10361 SMTP DAy 2 ADD BATCH with Keyword
+RSpec::Core::RakeTask.new(:smtpday2batch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint103/US10095/sprint103_Batch_SMTP_Prov_Add_Cancel_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10361 SMTP Fetch
+RSpec::Core::RakeTask.new(:smtpfetch) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US10361/sprint104_SMTP_addon_services_voice_mail_spec.rb'
+  spec.fail_on_error = false
+end
+
+#Sprint103 F701 - US10361 SMTP Fetch
+RSpec::Core::RakeTask.new(:smtpfetchcustom) do |spec|
+
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US10361/sprint104_SMTP_addon_services_voice_mail_custom_spec.rb'
+  spec.fail_on_error = false
+end
+
+#############Pegasus Jeevitha Ends ###############
+######Pioneer - Brinda Starts######
+desc "US9750 - EM Access Gap closure: Service Template and Provisioning."
+RSpec::Core::RakeTask.new(:emAccessST_Ordering) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9750_EM_Template/US9750addEMAccessST_Ordering_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US9750 - EM Access Gap closure and US9765 - Keyword Feature: GSW"
+RSpec::Core::RakeTask.new(:emAccessST_keyword_GSW) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9750_EM_Template/US9750EMaccess_US9765keywrdFeatureGSW_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US9750 - EM Access Gap closure: Batch Provisioning"
+RSpec::Core::RakeTask.new(:emAccessST_Ordering_batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US9750_EM_Template/US9750EMaccessBatch_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10342 - Continue on batch failures"
+RSpec::Core::RakeTask.new(:contOnBatchFailure) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint100/US10342/continueOnBatchFailures_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10821 - EM Access Service Template and Day 2 BLF SD"
+RSpec::Core::RakeTask.new(:blfSDemAccessST_Ordering) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US10821/blfSDemAccessST_Ordering_spec.rb'
+  spec.fail_on_error = false
+end
+
+desc "US10821 - EM Access Service Template and Day 2 BLF SD through Batch"
+RSpec::Core::RakeTask.new(:blfSDemAccess_Batch) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern = 'spec/sprint104/US10821/blfSDemAccessBatch_spec.rb'
+  spec.fail_on_error = false
+end
+
+task :pegasusUS9750_US10821_US9765GSW => [:emAccessST_Ordering,:emAccessST_Ordering_batch,:blfSDemAccessST_Ordering,:blfSDemAccess_Batch,:emAccessST_keyword_GSW]
+######Pioneer - Brinda Ends######
+
+task :keywordFeature => [:lineKeyword,:emLineKeyword,:rdpLineKeyword,:emKeyword,:epKeyword,:rdpKeyword,:stlineKeyword,:stEmLineKeyword,:stRDPlineKeyword,:stRDPKeyword,:stEpKeyword]
+
+#### << Load Tasks >> ####
+task :backLog => [:enableLogShowTech,:enable_auto_provisioning,:createldap,:MngEndPts,:synched_services,:synched_services2,:bundle_service,:ep_keyword_substitution,:line_keyword_substitution,:config_temp,:user_move,:saCopy,:serviceTempE2EAuto]
+task :cfdSuite => [:CfdCSCur52603,:domainCfds,:CSCur76235,:CSCus01610,:ldap_sync_cfd,:change_owner_cfd]
+task :crossLaunch => [:uc_cross_launch,:cup_cross_launch,:infra_config]
+
+# Start of US task Jeevitha
+
+task :Sprint84_Keyword_sub_temp => [:userservicetemp, :vmservicetemp, :lineservicetemp, :EMlineservicetemp, :RDPlineservicetemp, :RDPservicetemp, :EPservicetemp, :Rules]
+task :Sprint84_Keyword_sub_prov => [:NewUser,:US_Prov,  :Rules_EP_Prov, :Rules_LINE_Prov, :EP_Prov, :LINE_Prov, :RDP_Prov, :RDP_LINE_Prov, :EM_LINE_Prov, :VM_Prov]
+task :sprint85Jeevitha => [:Sprint84_Keyword_sub_temp,:Sprint84_Keyword_sub_prov]
+task :Sprint86_Add_Sync_V11=> [:Deviceadd_V11, :Devicesync_V11, :Domainadd_V11, :Domainsync_V11, :SAadd_V11, :Useradd_V11, :Useradd_V12, :Resource_Report_V11, :SA_Report_V11, :DN_Report_V11]
+task :Sprint86_License=>[:License]
+task :Sprint87_Postgress=>[:Navigationchk]
+task :Sprint88_in_batch=>[:Dpool, :Rpatt, :Tpatt,:QuickView,:adddropsupport,:batchdropsupport,:batchicon]
+task :Sprint89_EL=>[:QuickView_EL]
+
+# End of US task Jeevitha
+
+# Start of US task Sathya
+task :Sprint84_NonHuman=> [:addnonHumanRole, :addnonHumanUser, :nonHumanService, :abortOrder]
+task :Sprint86_Day2Conference=> [:day2ConferenceNowPart1]
+task :Sprint87_Day1Batchsupport=> [:day2ConferenceNowPart2,:day1AudioConferenceBatch,:day1IVRBatch]
+task :Sprint88_Day1Batchsupport=> [:day2ConferenceNowPart3,:changeNotifyDay1,:elinGroupBatch,:saReportOnER]
+# End of US task Sathya
+
+## Load task for Sprint-85
+task :fullSprint85 => [:AutoUserService,:epbndlupldAuto,:Sprint84_Keyword_sub_temp,:Sprint84_Keyword_sub_prov,:Sprint84_NonHuman]
+
+## Load task for Sprint-86
+task :fullSprint86 => [:newbatchuiAuto,:License,:day2ConferenceNowPart1]
+
+## Load task for Sprint-87
+task :fullSprint87 => [:newbatchactnuiAuto,:day1AudioConferenceBatch,:day2ConferenceNowPart2,:day1IVRBatch,:Navigationchk]
+
+## Load task for Sprint-88
+task :fullSprint88 => [:day2ConferenceNowPart3,:changeNotifyDay1,:elinGroupBatch,:saReportOnER,:Dpool, :Rpatt, :Tpatt,:QuickView,:adddropsupport,:batchdropsupport,:batchicon]
+
+## Load task for Sprint-89
+task :fullSprint89 => [:QuickView_EL, :day1configbatchAuto, :elinconfigbatchAuto]
+
+## Load task for Sprint-95
+task :fullSprint95 => [:devicesupport115,:cmecue_device_batch,:siptrunkbatchAuto,:schedule_sync_95,:devicepoolGLF,:smtpnotify]
+
+## Load task for Sprint-96
+task :fullSprint96 => [:huntpilot,:schedule_sync_96,:processMgmtStaticAuto,:processMgmtAuto,:processMgmtDemoAuto,:surl,:surlBatch]
+
+## Load task for Sprint-97
+task :fullSprint97 => [:nativecallqueuinggateway,:nativecallqueuingsip,:timerAttribute]
+
+## Load task for Pegasus Stories
+task :pegasusLoad => [:pegasusUS9750_US10821_US9765GSW,:US9765Pegasus,:stsmtpui,:stsmtpuikeyword,:stsmtpbatch,:stsmtpkeywordbatch,:smtpday2batch,:karthikPegasusLoad]
+
+## Load task for Centaur
+task :allSprintsCentaur => [:fullSprint95,:fullSprint96]
+#Testing Jenkins job
+task :smokeSuiteAuto => [:dataPopulateAuto,:serviceTempE2EAuto,:reportAuto,:emailAuto]
+task :testJenkins => [:login,:enterMaintncMode,:reportAuto,:emailAuto]
+
+######Load task for sprint-96--US9889-Devibala
+task :huntpilot => [:huntpilotbatch,:huntpilotui]
+
+## Modulewise splitup
+task :day1Batchsupport => [:newbatchactnuiAuto,:day1AudioConferenceBatch,:day1IVRBatch,:changeNotifyDay1,:day1configbatchAuto,:elinGroupBatch,:saReportOnER]
+task :day2Conference => [:day2ConferenceNowPart1,:day2ConferenceNowPart2,:day2ConferenceNowPart3]
+task :scheduleSync => [:schedule_sync_95,:schedule_sync_96]
+task :orderingServiceTemplates => [:NewUser,:US_Prov, :Rules_EP_Prov, :Rules_LINE_Prov, :EP_Prov, :LINE_Prov, :RDP_Prov, :RDP_LINE_Prov, :EM_LINE_Prov, :VM_Prov, :userservicetemp, :vmservicetemp, :lineservicetemp, :EMlineservicetemp, :RDPlineservicetemp, :RDPservicetemp, :EPservicetemp, :Rules]
+
+#<<<<<<<<<<<<<<<<< Sprint Suite >>>>>>>>>>>>>>>>>>>>>>>>
+## Load task for All Sprints: The Sprint Suite
+task :allSprintsSuite => [:dn_trans_LDAP,:Sprint86_Add_Sync_V11,:backLog,:CfdCSCur52603,:domainCfds,:CSCur76235,:CSCus01610,:fullSprint85,:fullSprint86,:fullSprint87,:fullSprint88,:fullSprint89,:fullSprint95,:fullSprint96,:fullSprint97,:sprint99Sathya,:qProSuite,:crossLaunch,:reportAuto]
+task :allSprintsSuiteCentaur => [:dn_trans_LDAP,:Sprint86_Add_Sync_V11,:backLog,:CfdCSCur52603,:domainCfds,:CSCur76235,:CSCus01610,:fullSprint85,:fullSprint86,:fullSprint87,:fullSprint88,:fullSprint89,:qProSuite,:crossLaunch,:scheduleSyncLoad,:ssl_certificate,:sprint99Sathya,:processMgmntSuite,:reportAuto]
+task :allSprintsSuitePegasus => [:dn_trans_LDAP,:backLog,:CfdCSCur52603,:domainCfds,:CSCur76235,:CSCus01610,:fullSprint85,:fullSprint86,:fullSprint87,:fullSprint88,:fullSprint89,:qProSuite,:crossLaunch,:scheduleSyncLoad,:ssl_certificate,:sprint99Sathya,:pegasusLoad,:processMgmntSuite,:reportAuto]
+#<<<<<<<<<<<<<<<<< Sprint Suite >>>>>>>>>>>>>>>>>>>>>>>>
+
+## Adds CCM, UC, CUP, Ldap; Does the Sync for Infra and User
+task :addSync_device=> [:deviceAuto, :syncDeviceAuto]
+
+## Adds Domain with CCM, UC, Ldap; Does the Sync for Domain and Ldap
+task :addSync_domain=> [:domainAuto, :syncDomainAuto]
+
+### REFERENCES - Final Commit for Review
+## Data Population Suite: Adds Devices(CCM, UC, CUP, Ldap),
+#Does Infra/User Sync, Adds Domain, Does Domain/Ldap Sync,
+#Adds SA/SrvcTemplate, Adds AD User
+task :dataPopulateAuto1=> [:tstcntndvcAuto,:tstcntndvcbatchAuto,:devicesyncencryptbatchAuto]
+task :dataPopulateAuto2=> [:enterMaintncMode,:addSync_device,:addSync_domain,:srvcAreaAuto,:serviceTempAuto,:userAuto]
+task :dataPopulateAuto3=> [:Sprint86_Add_Sync_V11]
+
+###GSW end-to-end suite starts###
+task :gswSuite => [:gswE2EAuto,:ccmRoutePartition,:ccmCTIRoutePt,:ccmCallingSpaceSrch,:ccmSipProfile,:ccmUniversalDeviceTemp,:ccmUniversalLineTemp,:ccmCiscoUnifiedCMs,:ccmTrunk,:ccmVcMailPilot,:ccmVcMailProfile,:ccmRoutePattern,:ccmSrvcParameter,:ccmPhoneServices,:ccmUserPrfle,:ccmDevicePool,:ccmDateTimeGrp,:ccmUCservice,:ccmServicePrfl,:ccmSoftKeyTemplate,:ccmSelfProvisioning,:ccmLDAPauthentication,:ccmLDAPdirectory,:ccmLDAPsystem,:cupSrvcParameter,:cupPresenceGateways,:cupTFTPServer,:cupPreSettings,:ucClassOfService,:ucTelephonyPort,:ucTelephonyPortGrp,:ucUserTemplate]
+###GSW end-to-end suite ends###
